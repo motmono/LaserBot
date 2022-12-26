@@ -98,7 +98,7 @@ void setup()
   //SerialUSB.println("Aqui tambien");
   // Generate Soft AP. SSID=JJROBOTS_XX (XX= user MAC last characters), PASS=87654321
   //String cmd =  String("AT+CWSAP=\"JJROBOTS_") + MAC.substring(MAC.length() - 2, MAC.length()) + String("\",\"87654321\",5,3");
-  String cmd = String("AT+CWJAP=\"YOUR SSID\",\"YOUR PASSWORS\"");
+  String cmd = String("AT+CWJAP=\"YOUR SSID\",\"YOUR PASSWORD\"");
   ESPsendCommand(cmd, String("OK"), 6);
 
   // Set the IP address of the station
