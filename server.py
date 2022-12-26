@@ -10,7 +10,7 @@ from threading import Event
 exit = Event()
 
 # Variables for Wifi connection:
-IP = "16.103.106.50" # Default ROBOT IP
+IP = "A FREE IP ADDRESS ON YOUR NETWORK" # Default ROBOT IP
 PORT = 2222        # Default ROBOT port
 IN_PORT = 2223     # Default ROBOT input port
 LaserPointerSock = None
