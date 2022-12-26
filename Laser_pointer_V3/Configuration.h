@@ -62,7 +62,7 @@
 #define ROBOT_INITIAL_POSITION_M1 0
 #define ROBOT_INITIAL_POSITION_M2 0
 
-#define TELEMETRY "192.168.4.2"
+#define TELEMETRY "YOUR COMMUNICATIONS TERMINAL"
 
 #define MINIMUN_TIMER_PERIOD 32000 // For timer counters 
 
@@ -162,6 +162,8 @@ uint8_t MsgBuffer[MSGMAXLEN];
 
 String MAC;
 
+// Laser toggle bit
+bool laserOn = false;
 
 int16_t myAbs(int16_t param)
 {

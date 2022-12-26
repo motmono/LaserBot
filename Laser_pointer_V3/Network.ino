@@ -261,6 +261,28 @@ void ParseMsg(uint8_t interface)
     if (interface == 1)
       enable_udp_output = true;
   }
+
+  //Turn on Laser Pointer message JJON
+  if ((char(MsgBuffer[0]) == 'J') && (char(MsgBuffer[1]) == 'J') && (char(MsgBuffer[2]) == 'O') && (char(MsgBuffer[3]) == 'N')) {
+    SerialUSB.println("->MSG: JJON:");
+    working = 1;
+    newMessage = 1;
+    mode = 2;        // Laser Toggle mode
+    laserOn = true;
+    if (interface == 1)
+      enable_udp_output = true;
+  }
+
+   //Turn off Laser Pointer message JJOF
+  if ((char(MsgBuffer[0]) == 'J') && (char(MsgBuffer[1]) == 'J') && (char(MsgBuffer[2]) == 'O') && (char(MsgBuffer[3]) == 'F')) {
+    SerialUSB.println("->MSG: JJOF:");
+    working = 1;
+    newMessage = 1;
+    mode = 2;        // Laser Toggle mode
+    laserOn = false;
+    if (interface == 1)
+      enable_udp_output = true;
+  }
 }
 
 

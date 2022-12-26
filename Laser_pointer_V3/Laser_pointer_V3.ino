@@ -63,7 +63,7 @@ void setup()
   pinMode(SWITCH_IN, INPUT_PULLUP);  // Input Switch
   digitalWrite(SWITCH_IN, OUTPUT); // PULLUP
 
-  digitalWrite(11, HIGH);  // Disbale stepper motors
+  digitalWrite(11, HIGH);  // Disable stepper motors
   digitalWrite(RED_LED, HIGH);  // RED LED ON
 
   // Serial ports initialization
@@ -94,11 +94,16 @@ void setup()
   SerialUSB.print("MAC:");
   SerialUSB.println(MAC);
   delay(100);
-  ESPsendCommand(String("AT+CWMODE=2"), String("OK"), 3); // Soft AP mode
+  ESPsendCommand(String("AT+CWMODE=1"), String("OK"), 3); // Station Mode
   //SerialUSB.println("Aqui tambien");
   // Generate Soft AP. SSID=JJROBOTS_XX (XX= user MAC last characters), PASS=87654321
-  String cmd =  String("AT+CWSAP=\"JJROBOTS_") + MAC.substring(MAC.length() - 2, MAC.length()) + String("\",\"87654321\",5,3");
+  //String cmd =  String("AT+CWSAP=\"JJROBOTS_") + MAC.substring(MAC.length() - 2, MAC.length()) + String("\",\"87654321\",5,3");
+  String cmd = String("AT+CWJAP=\"YOUR SSID\",\"YOUR PASSWORS\"");
   ESPsendCommand(cmd, String("OK"), 6);
+
+  // Set the IP address of the station
+  String IP = String("AT+CIPSTA=\"ESP IP ADDRESS\",\"GATEWAY IP ADDRESS\",\"SUBNET MASK\"");
+  ESPsendCommand(IP, String("OK"), 5);
 
   // Start UDP SERVER on port 2222, telemetry port 2223
   SerialUSB.println("Start UDP server");
@@ -205,10 +210,15 @@ void loop()
       if (iCH5 != NODATA)
         moveServo2(iCH5 * SERVO2_RANGE / 1000.0 + SERVO2_MIN_PULSEWIDTH);
     }
-    else if (mode == 2) {
-      
+    else if (mode == 2) { //toggle laser on/off
+      if (laserOn) {
+        digitalWrite(13, HIGH); //TURN ON LASER
+      }
+      else {
+        digitalWrite(13, LOW); //TURN OFF LASER
+      }
     }
-    else if (mode == 3) {
+    else if (mode == 3) { //downstairs run mode
       
     }
 
@@ -221,6 +231,10 @@ void loop()
       motorsCalibration();
       setSpeedAcc();
       working = false;
+    }
+
+    else if (mode == 6) { //upstairs run mode
+      
     }
   }
 
@@ -246,7 +260,7 @@ void loop()
       //sprintf(message, "#%d:%.2f,%.2f,%d,%d", loop_counter/100,dA1, dA2,speed_M1,speed_M2);
       sprintf(message, "#%.2f,%.2f,%d,%d",dA1, dA2,speed_M1,speed_M2);
       //sprintf(message, "#%d:%d,%d,%d,%d", loop_counter/100,position_M1, position_M2,speed_M1,speed_M2);
-      SerialUSB.println(message);
+      //SerialUSB.println(message);
     }
 
     slow_timer_value = millis();
