@@ -10,7 +10,7 @@ from threading import Event
 exit = Event()
 
 # Variables for Wifi connection:
-IP = "A FREE IP ADDRESS ON YOUR NETWORK" # Default ROBOT IP
+IP ="YOUR.IP.ADDRESS.HERE" # Default ROBOT IP
 PORT = 2222        # Default ROBOT port
 IN_PORT = 2223     # Default ROBOT input port
 LaserPointerSock = None
@@ -26,7 +26,7 @@ def sendCommand(Header,p1,p2,p3=0,p4=0,p5=0,p6=0,p7=0,p8=0):
     param7 = bytearray(struct.pack(">h",p7))
     param8 = bytearray(struct.pack(">h",p8))
     message = base+param1+param2+param3+param4+param5+param6+param7+param8
-    print(message)
+    #print(message)
 
     try:
         LaserPointerSock.sendto(message,(IP,PORT))
@@ -58,9 +58,8 @@ def downstairs():
     first = 0
     last = 0
     while not exit.is_set():
-        order = random.sample(range(1,5),4)
+        order = random.sample(range(1,7),6)
         first = order[0]
-        print(order)
         if first != last: 
             for i in order:
                 t=random.randint(3,5)
@@ -71,10 +70,16 @@ def downstairs():
                 elif i == 3:
                     sendAngles2(-77,-91,t)
                 elif i == 4:
-                    adjust=random.randint(1,7)
-                    angle=-80+adjust
-                    sendAngles2(-45,angle,2)
-        last = order[3]
+                    #sendAngles2(-45,-80,2)
+                    sendAngles2(-77,-75,t)
+                elif i == 5:
+                    sendAngles2(-63,-38,t)
+                elif i == 6:
+                    sendAngles2(-40,-70,1)
+                    sendAngles2(-40,-45,1)
+                    sendAngles2(0,-30,1)
+                    sendAngles2(0,-70,1)
+        last = order[5]
 
     print("Exited program!")
     exit.clear()
@@ -133,7 +138,7 @@ if __name__ == '__main__':
         LaserPointerSock.sendto(b'JJAH0000000000000000',(IP,PORT))
         print("Connected to Laser Pointer via Wifi... ")
     except:
-        print("! Could not connect to laser pointer!. Check you are connected to the robot Wifi network (JJROBOTS_xx)")
+        print("! Could not connect to laser pointer!")
 
     sendCommand(b'JJAS',50,0,70,0) # 50% speed, 70% accel
 
