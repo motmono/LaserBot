@@ -58,8 +58,9 @@ def downstairs():
     first = 0
     last = 0
     pause = 0
+    num_loops = random.randint(range(2,5))
     while not exit.is_set():
-        order = random.sample(range(1,8),7)
+        order = random.sample(range(1,8),7)     
         first = order[0]
         if first != last: 
             for i in order:
@@ -81,9 +82,10 @@ def downstairs():
                     sendAngles2(0,-30,1)
                     sendAngles2(0,-70,1)
                 elif i == 7:
-                    if pause == 2:
+                    if pause == num_loops:
                         sendAngles(0,0)
                         exit.wait(30)
+                        num_loops = random.randint(range(2,5))
                         pause = 0
             pause += 1
         last = order[6]
