@@ -57,8 +57,9 @@ def sendAngles2(new_a1,new_a2,s=0.5):
 def downstairs():
     first = 0
     last = 0
+    pause = 0
     while not exit.is_set():
-        order = random.sample(range(1,7),6)
+        order = random.sample(range(1,8),7)
         first = order[0]
         if first != last: 
             for i in order:
@@ -79,7 +80,13 @@ def downstairs():
                     sendAngles2(-40,-45,1)
                     sendAngles2(0,-30,1)
                     sendAngles2(0,-70,1)
-        last = order[5]
+                elif i == 7:
+                    if pause == 2:
+                        sendAngles(0,0)
+                        exit.wait(30)
+                        pause = 0
+            pause += 1
+        last = order[6]
 
     print("Exited program!")
     exit.clear()
