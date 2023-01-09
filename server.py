@@ -58,7 +58,7 @@ def downstairs():
     first = 0
     last = 0
     pause = 0
-    num_loops = random.randint(range(2,5))
+    num_loops = random.randint(2,4)
     while not exit.is_set():
         order = random.sample(range(1,8),7)     
         first = order[0]
@@ -85,7 +85,7 @@ def downstairs():
                     if pause == num_loops:
                         sendAngles(0,0)
                         exit.wait(30)
-                        num_loops = random.randint(range(2,5))
+                        num_loops = random.randint(2,4)
                         pause = 0
             pause += 1
         last = order[6]
@@ -151,4 +151,4 @@ if __name__ == '__main__':
 
     sendCommand(b'JJAS',50,0,70,0) # 50% speed, 70% accel
 
-    app.run(host='0.0.0.0', port=8080 ,debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=False)
